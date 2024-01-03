@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Inpaint4DNeRF: Promptable Spatio-Temporal NeRF Inpainting with Generative
+    Diffusion Models</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+
+    p {
+      width: 95%;
+      padding: 10px;
+      margin: auto;
+    }
+
+    /* Remove the navbar's default margin-bottom and rounded borders */
+
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Add a gray background color and some padding to the footer */
+
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+
+    #ours {
+      font-weight: bold;
+    }
+
+    .glyphicon.glyphicon-arrow-down.main_arr {
+      font-size: 75px;
+    }
+
+    .glyphicon.glyphicon-option-horizontal.main_arr {
+      top: 50px;
+      font-size: 75px;
+    }
+
+    .glyphicon {
+      display: block;
+      text-align:center;
+    }
+
+    #noise {
+      text-align:center;
+      vertical-align: bottom;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="jumbotron" style="margin-bottom:0;background-color:transparent !important" id="title">
+    <div class="container text-center">
+      <h2>Inpaint4DNeRF: Promptable Spatio-Temporal NeRF Inpainting with <br>
+        Generative Diffusion Models</h2>
+      <p>Videos of Inpainting Examples</p>
+    </div>
+  </div>
+
+
+  <div class="jumbotron container-fluid bg-3" id="Comparison" style="background-color:transparent">
+    <div class="row" >
+      <h3 class="text-center">3D Examples</h3>
+    </div>
+    <br>
+  
+    <div class="row">
+      <div class="col-sm-4">
+        <p class="text-center">Text prompt: <b>an Argentina soccer player</b></p>
+      </div>
+      <div class="col-sm-4">
+        <p class="text-center">Text prompt: <b>an old professor, standing</b></p>
+      </div>
+      <div class="col-sm-4">
+        <p class="text-center">Text prompt: <b>telegraph pole</b></p>
+      </div>
+    </div>
+    <div class="row">
+      <p class="text-center">RGB, <b>Final Result</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_final_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_final_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_final_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+    <div class="row">
+      <p class="text-center">Depth map, <b>Final Result</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_final_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_final_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_final_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+	  
+	  <div class="row">
+      <p class="text-center">RGB, <b>Warmup Result</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_warmup_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_warmup_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_warmup_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+	  
+	  <div class="row">
+      <p class="text-center">Depth map, <b>Warmup Result</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_warmup_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_warmup_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_warmup_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+	  
+	  <div class="row">
+      <p class="text-center">RGB, <b>Initial NeRF</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_init_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_init_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_init_rgb.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+	  
+	  <div class="row">
+      <p class="text-center">Depth map, <b>Initial NeRF</b></p>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/arg_init_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/oldprof_init_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-sm-4">
+        <video width="400" controls autoplay loop>
+          <source src="inpaint3dnerf_video/pole_init_depth.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div><br>
+
+  <div class="jumbotron container-fluid bg-3" id="Comparison" style="background-color:transparent">
+    <div class="row" >
+      <h3 class="text-center">4D Examples</h3>
+      <p> Below we show 3 dynamic NeRF inpainting examples, including the example in our paper. For each example, we show a multiview video of the final result, as well as the "seed video" generated from the first seed images along with the original video. </p>
+      <p> For the third example "the girl", instead of generating new objects, we try to recover parts of the girl and the background that is occluded by the red dinosaur balloon in the original NeRF. While our final result is not perfectly clear, we can recover the static background and approximately the girl's motion in the NeRF. This example demonstrates that our method can not only generate brand new objects, but also generate missing content that is partially occluded.</p>
+    </div>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <p class="text-center">Text prompt: <b>a golden sword, side view</b></p>
+    </div>
+    <div class="col-sm-4">
+      <p class="text-center">Text prompt: <b>two storey red bus, driving towards left</b></p>
+    </div>
+    <div class="col-sm-4">
+      <p class="text-center">Text prompt: <b>the girl</b></p>
+    </div>
+  </div>
+  <div class="row">
+    <p class="text-center">Final Render</b></p>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/sword_final.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/bus_final.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/girl_final.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+  <div class="row">
+    <p class="text-center">Seed Video</b></p>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/sword_seed.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/bus_seed.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/girl_seed.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+  <div class="row">
+    <p class="text-center">Original Video</b></p>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/sword_org.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/bus_org.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col-sm-4">
+      <video width="400" controls autoplay loop>
+        <source src="inpaint4dnerf_video/girl_org.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+</body>
+<script>
+  $(".nav li").on("click", function() {
+    $(".nav li").removeClass("active");
+    $(this).addClass("active");
+  });
+</script>
+
+</html>

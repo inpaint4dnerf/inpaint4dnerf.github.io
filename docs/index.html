@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inpaint4dNeRF</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/UST.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-3 publication-title">Inpaint4DNeRF: Promptable Spatio-Temporal NeRF Inpainting with
+            Generative Diffusion Models</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://hjiangav.github.io">Han Jiang</a><sup>*1</sup>,</span>
+            <span class="author-block">
+              Haosen Sun<sup>*1</sup>,</span>
+            <span class="author-block">
+              Ruoxuan Li<sup>*1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://cse.hkust.edu.hk/~cktang/bio.html">Chi-Keung Tang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://yuwingtai.github.io/">Yu-Wing Tai</a><sup>2</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Hong Kong University of Science and Technology,</span>
+            <span class="author-block"><sup>2</sup>Dartmouth College</span>
+          </div>
+
+          <div class="is-size-6">
+            <span class="author-block">* Joint first authors.</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2401.00208"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="example.html"
+                   class="external-link button is-normal is-rounded is-dark">
+                   <span class="icon">
+                       <i class="far fa-images"></i>
+                   </span>
+                  <span>Inpainting Examples</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./teaser.gif" class="interpolation-image" />
+      <h2 class="subtitle has-text-centered">
+        Inpaint4DNeRF generates text-prompted content in a static or dynamic background scene represented by NeRF.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Current Neural Radiance Fields (NeRF) can generate photorealistic novel
+            views. For editing scenes represented by NeRF, 
+            with the advent of generative
+            models, 
+            this paper proposes Inpaint4DNeRF to
+            capitalize on state-of-the-art stable diffusion models (e.g.,
+            ControlNet) for direct generation of the
+            underlying completed background content, regardless of static or dynamic. The
+            key advantages of this generative approach for NeRF inpainting are
+            twofold.
+            First, after rough mask propagation, to complete or fill in previously occluded content, we can
+            individually generate a small subset of completed images with plausible
+            content, called seed images, from which simple 3D geometry proxies can be
+            derived.  Second and the remaining problem is thus 3D multiview
+            consistency among all completed images, now guided by the seed images and
+            their 3D proxies.  Without other bells and whistles, our generative Inpaint4DNeRF baseline framework is general which
+            can be readily extended to 4D dynamic NeRFs, where temporal consistency
+            can be naturally handled in a similar way as our multiview consistency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Pipeline</h2>
+    <img src="./static/baseline.png" class="interpolation-image" />
+    <p>
+      Our generative NeRF inpainting is based on the inpainted image of one training view. The other seed images and training images are obtained by using stable diffusion to hallucinate the corrupted detials of the unproject-projected raw image. These images are then used to finetune the NeRF, with warmup training to get geometric and  coarse appearance convergence, followed by iterative training image update to get fine convergence. For 4D extension, we first obtain a temporally consistent inpainted seed video based on the first seed image. Then for each frame, we infer inpainted images on other views by projection and correction, as in our 3D baseline.
+    </p>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{inpaint4dnerf,
+      title={Inpaint4DNeRF: Promptable Spatio-Temporal NeRF Inpainting with Generative Diffusion Models}, 
+      author={Han Jiang and Haosen Sun and Ruoxuan Li and Chi-Keung Tang and Yu-Wing Tai},
+      year={2023},
+      eprint={2401.00208},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+              href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            The source code of this website is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+            We thank the authors for sharing the template.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
